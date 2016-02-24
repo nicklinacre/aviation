@@ -19,44 +19,45 @@ shinyServer(function(input, output) {
     a         <- 689			   # Actural emissions in 2012
     p         <- c(758,0,0,0,872,0,0,0,999,0,0,0,0,1176) # Base data no rebase
     m         <- c(689,0,0,0,793,0,0,0,908,0,0,0,0,1069) # Rebase data
-
+    vt        <- c(1,5,9,14)               # Discount 
+    
 #
 # Output Variable Declarations that account for early (2019), proposed (2020), and late (2021) emissions trading start dates
 #
     s2019		<- array (2019:2025)
-    OffsetsNoReb2019   	<- array(dim(s2019))	# Offset demand
+    OffsetsNoReb2019   	<- array(dim(s2019))	# Offset demand no rebasing
     EmissionsNoReb2019 	<- array(dim(s2019))
-    OffsetsReb2019     	<- array(dim(s2019))	# Offset demand
+    OffsetsReb2019     	<- array(dim(s2019))	# Offset demand with rebasing
     EmissionsReb2019   	<- array(dim(s2019))
 
     s2020          	<- array (2020:2025)    
-    OffsetsNoReb2020   	<- array(dim(s2020))	# Offset demand
+    OffsetsNoReb2020   	<- array(dim(s2020))	# Offset demand no rebasing
     EmissionsNoReb2020 	<- array(dim(s2020))
-    OffsetsReb2020     	<- array(dim(s2020))	# Offset demand
+    OffsetsReb2020     	<- array(dim(s2020))	# Offset demand with rebasing
     EmissionsReb2020   	<- array(dim(s2020))
 
     s2021		<- array (2021:2025)
-    OffsetsNoReb2021   	<- array(dim(s2021))	# Offset demand
+    OffsetsNoReb2021   	<- array(dim(s2021))	# Offset demand no rebasing
     EmissionsNoReb2021 	<- array(dim(s2021))
-    OffsetsReb2021     	<- array(dim(s2021))	# Offset demand
+    OffsetsReb2021     	<- array(dim(s2021))	# Offset demand with rebasing
     EmissionsReb2021   	<- array(dim(s2021))
 
 #
-# emission growth rate projections
+# emission growth rate projections and calculations
 # 
-    for (i in 1:4) {
-        gth[i]<-((p[5]/p[1])^(1/(t[5]-t[1])))-1
-        rgth[i]<-((m[5]/m[1])^(1/(t[5]-t[1])))-1
+    for (i in 1:(vt[2]-1)) {
+        gth[i]<-((p[vt[2]]/p[1])^(1/(t[vt[2]]-t[1])))-1
+        rgth[i]<-((m[vt[2]]/m[1])^(1/(t[vt[2]]-t[1])))-1
     }
 
-    for (i in 5:8) {
-       gth[i]<-((p[9]/p[5])^(1/(t[9]-t[5])))-1
-       rgth[i]<-((m[9]/m[5])^(1/(t[9]-t[5])))-1
+    for (i in vt[2]:(vt[3]-1)) {
+       gth[i]<-((p[vt[3]]/p[vt[2]])^(1/(t[vt[3]]-t[vt[2]])))-1
+       rgth[i]<-((m[vt[3]]/m[vt[2]])^(1/(t[vt[3]]-t[vt[2]])))-1
     }
 
-    for (i in 9:14) {
-       gth[i]<-((p[14]/p[9])^(1/(t[14]-t[9])))-1
-       rgth[i]<-((m[14]/m[9])^(1/(t[14]-t[9])))-1
+    for (i in vt[3]:(vt[4])) {
+       gth[i]<-((p[vt[4]]/p[vt[3]])^(1/(t[vt[4]]-t[vt[3]])))-1
+       rgth[i]<-((m[vt[4]]/m[vt[3]])^(1/(t[vt[4]]-t[vt[3]])))-1
     }
 
 #
