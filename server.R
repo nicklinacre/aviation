@@ -65,7 +65,7 @@ shinyServer(function(input, output) {
 #
     EmNoReb[1] <- p[1]
     EmReb[1] <- m[1]
-    for (i in 2:14) {
+    for (i in 2:vt[4]) {
        EmNoReb[i] <- EmNoReb[i-1]*(1+gth[i-1])
        EmReb[i] <- EmReb[i-1]*(1+rgth[i-1])
     }
